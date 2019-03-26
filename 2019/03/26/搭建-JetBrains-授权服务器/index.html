@@ -1,0 +1,98 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>搭建 JetBrains 授权服务器 - 传传的工作甜点</title>
+    <link href="/images/author.jpg" rel="shortcut icon">
+<link href="" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/author.jpg" alt="Home" width="59" height="59"></a>
+  <p>传传的工作甜点</p>
+  <p>A strong man will struggle with the storms of fade.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Blog</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="mailto:strongwucc@gmail.com">Email</a>
+  
+    <a class="main" href="https://github.com/strongwucc">Github</a>
+  
+</div>
+
+      <section class="paging">
+  
+  
+    <div class="right">
+      <a href="/2018/12/29/VUE友好刷新页面/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <div class="date">2019-03-26</div>
+            搭建 JetBrains 授权服务器
+          </h1>
+          <h2 id="1-设置运行脚本"><a href="#1-设置运行脚本" class="headerlink" title="1. 设置运行脚本"></a>1. 设置运行脚本</h2><h5 id="1-1-下载脚本文件链接"><a href="#1-1-下载脚本文件链接" class="headerlink" title="1.1 下载脚本文件链接"></a>1.1 下载脚本文件链接</h5><blockquote>
+<p><a href="https://pan.baidu.com/s/1vtzz0DSQadIiXdV2J_-fug" target="_blank" rel="noopener">https://pan.baidu.com/s/1vtzz0DSQadIiXdV2J_-fug</a><br>提取码：ciqc </p>
+</blockquote>
+<h5 id="1-2-添加执行权限"><a href="#1-2-添加执行权限" class="headerlink" title="1.2 添加执行权限"></a>1.2 添加执行权限</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/IntellijIdea　　</span><br><span class="line">mv IntelliJIDEALicenseServer_linux_amd64 /home/IntellijIdea/IdeaServer  </span><br><span class="line">cd /home/IntellijIdea</span><br><span class="line">chmod +x IdeaServer        #并添加上执行权限</span><br></pre></td></tr></table></figure>
+<h5 id="1-3-后台添加运行方法"><a href="#1-3-后台添加运行方法" class="headerlink" title="1.3 后台添加运行方法"></a>1.3 后台添加运行方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#安装screen</span><br><span class="line">yum install screen -y  </span><br><span class="line"># 启动程序</span><br><span class="line">screen -dmS IdeaServer -d -m /home/IntellijIdea/IdeaServer -p 1029 -u Lewen -prolongationPeriod 999999999999</span><br><span class="line">     [后台启动] [服务名]  　　　　[脚本位置]  　　　　　　　　　　　[运行的端口][用户名]</span><br><span class="line"></span><br><span class="line">[注释]：关键参数替换成你自己的</span><br><span class="line">screen -dmS                             后台运行</span><br><span class="line">IdeaServer                              服务名称[你也可以叫别的]</span><br><span class="line">d -m /home/IntellijIdea/IdeaServer      你脚本存放的路径</span><br><span class="line">-p 1029                                 服务绑定的端口[不要与系统的端口冲突]</span><br><span class="line">-u Lewen                                用户名[自定义起]</span><br><span class="line">-prolongationPeriod 999999999999        有限时间</span><br><span class="line"></span><br><span class="line">#查看程序是否正常运行</span><br><span class="line">ss -lntup | grep IdeaServer</span><br></pre></td></tr></table></figure>
+<h2 id="2-配置反向代理"><a href="#2-配置反向代理" class="headerlink" title="2. 配置反向代理"></a>2. 配置反向代理</h2><h5 id="2-1-通过宝塔面板"><a href="#2-1-通过宝塔面板" class="headerlink" title="2.1 通过宝塔面板"></a>2.1 通过宝塔面板</h5><h6 id="添加站点"><a href="#添加站点" class="headerlink" title="添加站点"></a>添加站点</h6><p><img src="https://strongwucc.github.io/2019/03/26/搭建-JetBrains-授权服务器/1.png" alt="TIM截图20190326094821"></p>
+<h6 id="添加反向代理"><a href="#添加反向代理" class="headerlink" title="添加反向代理"></a>添加反向代理</h6><p><img src="https://strongwucc.github.io/2019/03/26/搭建-JetBrains-授权服务器/2.png" alt="TIM截图20190326094916"></p>
+<p><img src="https://strongwucc.github.io/2019/03/26/搭建-JetBrains-授权服务器/3.png" alt="TIM截图20190326095010"></p>
+<p><img src="https://strongwucc.github.io/2019/03/26/搭建-JetBrains-授权服务器/4.png" alt="TIM截图20190326095031"></p>
+<h6 id="验证是否配置成功"><a href="#验证是否配置成功" class="headerlink" title="验证是否配置成功"></a>验证是否配置成功</h6><blockquote>
+<p>访问你的域名看反向代理是否成功，出现not found 就是成功了</p>
+</blockquote>
+<h5 id="2-2-手动配置"><a href="#2-2-手动配置" class="headerlink" title="2.2 手动配置"></a>2.2 手动配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    include             mime.types;</span><br><span class="line">    default_type        application/octet-stream;</span><br><span class="line">    sendfile            on;</span><br><span class="line">    keepalive_timeout   65;</span><br><span class="line">    server&#123;</span><br><span class="line"></span><br><span class="line">        listen 80;</span><br><span class="line">        server_name idea.xxxxxx.com;     # 准备好的域名，没有的话直接写 127.0.0.1，到时候激活时填写你服务器的IP</span><br><span class="line">        index index.php index.html index.htm default.php default.htm default.html;</span><br><span class="line">        root /www/wwwroot/idea.wenyule.com;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://127.0.0.1:1029;  #指定监听的端口</span><br><span class="line">            proxy_redirect off;</span><br><span class="line">            proxy_set_header Host $host;</span><br><span class="line">            proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">        access_log  /www/wwwlogs/idea.wenyule.com.log;</span><br><span class="line">        error_log  /www/wwwlogs/idea.wenyule.com.error.log;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">反向代理</span><br></pre></td></tr></table></figure>
+<h2 id="3-激活"><a href="#3-激活" class="headerlink" title="3. 激活"></a>3. 激活</h2><p><img src="https://strongwucc.github.io/2019/03/26/搭建-JetBrains-授权服务器/5.png" alt="TIM截图20190326095100"></p>
+<blockquote>
+<p>注意：地址链接后面不要加 /</p>
+</blockquote>
+
+          <br>
+<p>LucienWu</p>
+<p><img src="/images/author.jpg" alt="scribble" width="50"></p>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Blog</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="mailto:strongwucc@gmail.com">Email</a>
+  
+    <a class="main" href="https://github.com/strongwucc">Github</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">&copy; Lucien Wu. All Rights Reserved.</span><br>
+  <br>
+  <br>
+</footer>
+
+  </body>
+</html>
